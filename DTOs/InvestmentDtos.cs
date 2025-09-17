@@ -1,0 +1,1 @@
+namespace FinBank.Api.DTOs; public record InvestmentRequest(decimal initialAmount,decimal monthlyContribution,double expectedAnnualReturn,int years); public record InvestmentResult(decimal finalValue,decimal totalContributed,decimal totalGain);

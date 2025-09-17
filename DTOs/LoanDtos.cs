@@ -1,0 +1,1 @@
+namespace FinBank.Api.DTOs; public record LoanSimulationRequest(decimal amount,int termMonths,double annualRate); public record LoanSimulationResult(decimal monthlyPayment,decimal totalInterest,decimal totalCost);

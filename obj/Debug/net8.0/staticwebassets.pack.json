@@ -1,0 +1,45 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/bibi/Documents/GitHub/FinBank-API/wwwroot/css/styles.css",
+      "PackagePath": "staticwebassets/css/styles.css"
+    },
+    {
+      "Id": "/Users/bibi/Documents/GitHub/FinBank-API/wwwroot/dashboard.html",
+      "PackagePath": "staticwebassets/dashboard.html"
+    },
+    {
+      "Id": "/Users/bibi/Documents/GitHub/FinBank-API/wwwroot/index.html",
+      "PackagePath": "staticwebassets/index.html"
+    },
+    {
+      "Id": "/Users/bibi/Documents/GitHub/FinBank-API/wwwroot/invest.html",
+      "PackagePath": "staticwebassets/invest.html"
+    },
+    {
+      "Id": "/Users/bibi/Documents/GitHub/FinBank-API/wwwroot/js/api.js",
+      "PackagePath": "staticwebassets/js/api.js"
+    },
+    {
+      "Id": "/Users/bibi/Documents/GitHub/FinBank-API/wwwroot/loan.html",
+      "PackagePath": "staticwebassets/loan.html"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.FinBank.Api.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.FinBank.Api.props",
+      "PackagePath": "build\\FinBank.Api.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.FinBank.Api.props",
+      "PackagePath": "buildMultiTargeting\\FinBank.Api.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.FinBank.Api.props",
+      "PackagePath": "buildTransitive\\FinBank.Api.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

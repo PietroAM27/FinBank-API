@@ -1,0 +1,4 @@
+.card { box-shadow: 0 6px 20px rgba(0,0,0,0.08); border: none; }
+.navbar-brand { font-weight: 700; letter-spacing: .3px; }
+footer { margin-top: 40px; color: #666; font-size: .9rem; }
+.table td, .table th { vertical-align: middle; }

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FinBank — Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand logo" href="/index.html"><i class="bi bi-bank2"></i> FinBank PAM</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link active" href="/dashboard.html"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="/invest.html"><i class="bi bi-graph-up-arrow me-1"></i>Investimenti</a></li>
+        <li class="nav-item"><a class="nav-link" href="/loan.html"><i class="bi bi-cash-coin me-1"></i>Prestiti</a></li>
+        <li class="nav-item"><a class="nav-link" href="/swagger" target="_blank"><i class="bi bi-braces-asterisk me-1"></i>Swagger</a></li>
+      </ul>
+      <div class="d-flex">
+        <button class="btn btn-outline-light" onclick="logout()"><i class="bi bi-box-arrow-right me-1"></i>Logout</button>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="loading-backdrop" id="loading"><div class="spinner"></div></div>
+
+<div class="container mt-4">
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="mb-3"><i class="bi bi-credit-card-2-front me-1"></i>Conto</h5>
+          <div class="mb-2">
+            <strong>IBAN</strong>
+            <div id="iban" class="text-secondary">—</div>
+          </div>
+          <div>
+            <strong>Saldo</strong>
+            <div class="display-6"><span id="balance">—</span> €</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="mb-3"><i class="bi bi-clock-history me-1"></i>Ultime transazioni</h5>
+          <div class="table-responsive">
+            <table class="table table-sm align-middle">
+              <thead><tr><th>Data</th><th>Descrizione</th><th class="text-end">Importo</th></tr></thead>
+              <tbody id="txTable"><tr><td colspan="3" class="text-center text-secondary">Caricamento…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/api.js"></script>
+<script>
+  requireAuth();
+
+  (async () => {
+    const loading = document.getElementById('loading');
+    loading.style.display = 'flex';
+    try {
+      const me = await api('/api/accounts/me');
+      document.getElementById('iban').innerText = me.iban;
+      document.getElementById('balance').innerText = Number(me.balance).toFixed(2);
+
+      const tbody = document.getElementById('txTable');
+      tbody.innerHTML = '';
+
+      (me.transactions || []).forEach(t => {
+        // --- Safari-safe datetime parsing ---
+        // Backend invia stringhe tipo "2025-09-05 15:53:47.015768"
+        // Convertiamo in ISO 8601: "2025-09-05T15:53:47.015768Z"
+        let raw = String(t.timestamp);
+        raw = raw.replace(' ', 'T');
+        if (!raw.endsWith('Z')) raw = raw + 'Z';
+        const dt = new Date(raw);
+
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>' + (isNaN(dt.getTime()) ? '-' : dt.toLocaleString()) + '</td>' +
+          '<td>' + t.description + '</td>' +
+          '<td class="text-end ' + (Number(t.amount) < 0 ? 'text-danger' : 'text-success') + '">' +
+          Number(t.amount).toFixed(2) + '</td>';
+        tbody.appendChild(tr);
+      });
+    } catch (err) {
+      const tbody = document.getElementById('txTable');
+      tbody.innerHTML = '<tr><td colspan="3" class="text-danger">' + err.message + '</td></tr>';
+    } finally {
+      loading.style.display = 'none';
+    }
+  })();
+</script>
+</body>
+</html>
